@@ -1,9 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EInsuranceProject.Model
 {
     public class Customer
     {
+        [Key]
         public int CustomerId { get; set; }
         public string CustomerFirstName { get; set; }
         public string CustomerLastName { get; set; }
@@ -17,7 +19,7 @@ namespace EInsuranceProject.Model
         public bool Status { get;set; }
 
         public List<Agent>? Agents { get; set; }
-        public List<Document>Documents { get; set; }
+       
 
         public User? User { get; set; }
         [ForeignKey("UserId")]

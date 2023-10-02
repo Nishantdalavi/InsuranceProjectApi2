@@ -1,9 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EInsuranceProject.Model
 {
     public class Employee
     {
+        [Key]
         public int EmployeeId { get; set; } 
         public string EmployeeFirstName { get; set; }
         public string EmployeeLastName { get; set; }

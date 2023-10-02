@@ -1,18 +1,24 @@
-﻿namespace EInsuranceProject.Model
+﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace EInsuranceProject.Model
 {
     public class User
     {
+        [Key]
         public int UserId { get; set; }
-        public string UserName { get; set; }    
-        public string Password { get;set; }
-       
+        [Required]
+        public string UserName { get; set; } = String.Empty;
+        [Required]
+        public string Password { get; set; }= String.Empty;
+
+        [Required]
         public List<Role> Roles { get; set; }
+        public Admin Admin { get; set; }
+        public Agent Agent { get; set; }
+        public Customer Customer { get; set; }
+        public Employee Employee { get; set; }  
 
-
-        // One-to one Relationship to Roles
-        public Agent? Agent { get; set; }
-        public Admin?Admin { get; set; }
-        public Customer? Customer { get; set; }
-        public Employee? Employee { get; set; }
     }
 }
