@@ -1,4 +1,7 @@
 using EInsuranceProject.Data;
+using EInsuranceProject.MiddleWare;
+using EInsuranceProject.Repository;
+using EInsuranceProject.Services;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 
@@ -21,6 +24,11 @@ namespace EInsuranceProject
             builder.Services.AddControllers();
             builder.Services.AddControllers()
        .AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+            builder.Services.AddTransient(typeof(IEntityRepository<>),typeof(EntityRepository<>));
+            builder.Services.AddTransient<IUserService, UserService>();
+
+
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -33,7 +41,7 @@ namespace EInsuranceProject
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
+            app.UseMiddleware<ErrorHandlingMiddleWare>();
             app.UseHttpsRedirection();
 
             app.UseAuthorization();

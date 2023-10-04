@@ -15,10 +15,10 @@ namespace EInsuranceProject.Model
 
         [Required]
         public List<Role> Roles { get; set; }
-        public Admin Admin { get; set; }
-        public Agent Agent { get; set; }
-        public Customer Customer { get; set; }
-        public Employee Employee { get; set; }  
+        //public Admin Admin { get; set; }
+        //public Agent Agent { get; set; }
+        //public Customer Customer { get; set; }
+        //public Employee Employee { get; set; }  
 
     }
 }

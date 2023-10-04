@@ -4,6 +4,7 @@ using EInsuranceProject.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EInsuranceProject.Migrations
 {
     [DbContext(typeof(InsuranceContext))]
-    partial class InsuranceContextModelSnapshot : ModelSnapshot
+    [Migration("20231003173239_V2CreateRemainingTable")]
+    partial class V2CreateRemainingTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -73,7 +76,8 @@ namespace EInsuranceProject.Migrations
 
                     b.HasKey("AdminId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("Admins");
                 });
@@ -116,7 +120,8 @@ namespace EInsuranceProject.Migrations
 
                     b.HasKey("AgentId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("Agents");
                 });
@@ -170,7 +175,8 @@ namespace EInsuranceProject.Migrations
 
                     b.HasKey("CustomerId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("Customers");
                 });
@@ -236,7 +242,8 @@ namespace EInsuranceProject.Migrations
 
                     b.HasKey("EmployeeId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("Employees");
                 });
@@ -473,8 +480,8 @@ namespace EInsuranceProject.Migrations
             modelBuilder.Entity("EInsuranceProject.Model.Admin", b =>
                 {
                     b.HasOne("EInsuranceProject.Model.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
+                        .WithOne("Admin")
+                        .HasForeignKey("EInsuranceProject.Model.Admin", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -484,8 +491,8 @@ namespace EInsuranceProject.Migrations
             modelBuilder.Entity("EInsuranceProject.Model.Agent", b =>
                 {
                     b.HasOne("EInsuranceProject.Model.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
+                        .WithOne("Agent")
+                        .HasForeignKey("EInsuranceProject.Model.Agent", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -495,8 +502,8 @@ namespace EInsuranceProject.Migrations
             modelBuilder.Entity("EInsuranceProject.Model.Customer", b =>
                 {
                     b.HasOne("EInsuranceProject.Model.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
+                        .WithOne("Customer")
+                        .HasForeignKey("EInsuranceProject.Model.Customer", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -517,8 +524,8 @@ namespace EInsuranceProject.Migrations
             modelBuilder.Entity("EInsuranceProject.Model.Employee", b =>
                 {
                     b.HasOne("EInsuranceProject.Model.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
+                        .WithOne("Employee")
+                        .HasForeignKey("EInsuranceProject.Model.Employee", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -602,6 +609,21 @@ namespace EInsuranceProject.Migrations
                     b.Navigation("Policies");
 
                     b.Navigation("SchemeDetails");
+                });
+
+            modelBuilder.Entity("EInsuranceProject.Model.User", b =>
+                {
+                    b.Navigation("Admin")
+                        .IsRequired();
+
+                    b.Navigation("Agent")
+                        .IsRequired();
+
+                    b.Navigation("Customer")
+                        .IsRequired();
+
+                    b.Navigation("Employee")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

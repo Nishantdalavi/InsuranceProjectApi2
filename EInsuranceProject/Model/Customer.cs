@@ -11,7 +11,7 @@ namespace EInsuranceProject.Model
         public string CustomerLastName { get; set; }
         public string Email { get;set; }
         public Int32 Phone {  get; set; } 
-        public string Address { get; set; }
+        public string ?Address { get; set; }
         public State State { get; set; }
         public string City { get;set; }
         public string Nominee { get;set; }
@@ -20,7 +20,9 @@ namespace EInsuranceProject.Model
 
         public List<Agent>? Agents { get; set; }
        
+        public List<Document>? Documents { get; set; }
 
+        public List<Policy> ?Policies { get; set; }   
         public User? User { get; set; }
         [ForeignKey("UserId")]
         public int UserId { get; set; }
