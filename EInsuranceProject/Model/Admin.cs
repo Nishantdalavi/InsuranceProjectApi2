@@ -7,13 +7,19 @@ namespace EInsuranceProject.Model
     {
         [Key]
         public int AdminId { get; set; }
-        public string AdminFirstName { get; set; }  
+
+        [Required(ErrorMessage = "Admin First Name is required.")]
+        [StringLength(50, ErrorMessage = "Admin First Name should not exceed 50 characters.")]
+        public string AdminFirstName { get; set; }
+
+        [Required(ErrorMessage = "Admin Last Name is required.")]
+        [StringLength(50, ErrorMessage = "Admin Last Name should not exceed 50 characters.")]
         public string AdminLastName { get; set; }
 
+        [Required(ErrorMessage = "UserId is required.")]
 
-        public User? User { get; set; }
-        [ForeignKey("UserId")]
+        [ForeignKey("User")]
         public int UserId { get; set; }
-
+        public User? User { get; set; }
     }
 }

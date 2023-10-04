@@ -8,12 +8,15 @@ namespace EInsuranceProject.Model
     {
         [Key]
         public int UserId { get; set; }
-        [Required]
-        public string UserName { get; set; } = String.Empty;
-        [Required]
-        public string Password { get; set; }= String.Empty;
 
         [Required]
+        public string UserName { get; set; } = String.Empty;
+
+        [Required]
+        [DataType(DataType.Password)]
+        public string Password { get; set; }= String.Empty;
+
+        //[Required]
         public List<Role> Roles { get; set; }
         //public Admin Admin { get; set; }
         //public Agent Agent { get; set; }

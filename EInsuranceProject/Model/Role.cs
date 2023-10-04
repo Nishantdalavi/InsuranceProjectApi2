@@ -5,8 +5,11 @@ namespace EInsuranceProject.Model
     public class Role
     {
         [Key]
-        public int roleId { get; set; }
-        public string roleName { get; set; }
+        public int RoleId { get; set; }
+
+        [Required]
+        [StringLength(50)]
+        public string RoleName { get; set; }
 
         public List<User> Users { get; set; }
 
