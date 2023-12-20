@@ -1,11 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
-namespace EInsuranceProject.Model
+namespace EInsuranceProject.DTO
 {
-    public class Admin
+    public class AdminDTO
     {
-        [Key]
         public int AdminId { get; set; }
 
         [Required(ErrorMessage = "This Field is required.")]
@@ -15,12 +13,6 @@ namespace EInsuranceProject.Model
         [Required(ErrorMessage = "This Field is required.")]
         [StringLength(50, ErrorMessage = " Last Name should not exceed 50 characters")]
         public string AdminLastName { get; set; }
-        public bool Status { get; set; }
-
-        
-
-        //[ForeignKey("User")]
-       // public int UserId { get; set; }
-        //public User? User { get; set; }
+        public bool Status { get;set; }
     }
 }

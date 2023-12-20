@@ -2,5 +2,8 @@
 {
     public enum PaymentType
     {
+        UPI,
+        InternetBanking,
+        DabitCard,
     }
 }

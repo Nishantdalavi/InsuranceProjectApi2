@@ -25,7 +25,18 @@ namespace EInsuranceProject
             builder.Services.AddControllers()
        .AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
             builder.Services.AddTransient(typeof(IEntityRepository<>),typeof(EntityRepository<>));
-            builder.Services.AddTransient<IUserService, UserService>();
+            builder.Services.AddTransient<ICustomerService, CustomerService>();
+            builder.Services.AddTransient<IAgentService, AgentService>();
+            builder.Services.AddTransient<IEmployeeService, EmployeeService>();
+            builder.Services.AddTransient<IInsurancePlanService, InsurancePlanService>();
+            builder.Services.AddTransient<IInsuranceSchemesService, InsuranceSchemesService>();
+            builder.Services.AddTransient<IPolicyService, PolicyService>();
+            builder.Services.AddTransient<IDocumentService, DocumentService>();
+            builder.Services.AddTransient<ISchemeDetailsService, SchemeDetailsService>();
+            builder.Services.AddTransient<IAdminService, AdminService>();
+            builder.Services.AddTransient<IPaymentService, PaymentService>();
+            builder.Services.AddTransient<IComplaintService, ComplaintService>();
+            builder.Services.AddTransient<IClaimService, ClaimService>();
 
 
 

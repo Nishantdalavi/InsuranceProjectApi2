@@ -7,11 +7,13 @@ namespace EInsuranceProject.Model
     {
         [Key]
         public int SchemeId { get; set; }
+
+        [Required(ErrorMessage ="This field is required")]
         public string SchemeName { get;set; }
         public bool Status { get;set; }
 
 
-        public SchemeDetails? SchemeDetails { get; set; }
+        public SchemeDetails SchemeDetails { get; set; }
     
 
         public List<Policy>? Policies { get; set; }

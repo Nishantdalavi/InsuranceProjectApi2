@@ -8,58 +8,54 @@ namespace EInsuranceProject.Model
         [Key]
         public int CustomerId { get; set; }
 
-        [Required]
+        [Required (ErrorMessage ="This field is required")]
         [StringLength(50)]
         public string CustomerFirstName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "This field is required")]
         [StringLength(50)]
         public string CustomerLastName { get; set; }
 
-        [Required]
-        [EmailAddress]
-        [StringLength(100)]
+        [Required(ErrorMessage = "This field is required")]
+        [EmailAddress (ErrorMessage ="Invalid format") ]
+        [StringLength(20)]
         public string Email { get;set; }
 
-        public Int32 Phone {  get; set; } 
-        public string ?Address { get; set; }
-
-        [Required]
-        [Phone]
-        [StringLength(20)]
-        public Int32 Phone {  get; set; }
+        [Required(ErrorMessage = "This field is required")]
+        [Phone (ErrorMessage ="Phone number should be  10-digit")]
+        public string Phone {  get; set; }
 
         [StringLength(100)]
         public string Address { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "This field is required")]
 
         public State State { get; set; }
 
+        [Required(ErrorMessage = "This field is required")]
         [StringLength(50)]
         public string City { get;set; }
 
+        [Required(ErrorMessage = "This field is required")]
         [StringLength(100)]
         public string Nominee { get;set; }
 
+
+        [Required(ErrorMessage = "This field is required")]
         [StringLength(50)]
         public string NomineeRelation { get;set; }
         public bool Status { get;set; }
 
         public List<Agent>? Agents { get; set; }
-<<<<<<< HEAD
-       
+
+        public List<Complaint> ?Queries { get; set; }
         public List<Document>? Documents { get; set; }
 
         public List<Policy> ?Policies { get; set; }   
-        public User? User { get; set; }
-        [ForeignKey("UserId")]
-=======
-
-        [ForeignKey("User")]
->>>>>>> 300ecca8629781130ad3a25b78d63856b47ac35d
-        public int UserId { get; set; }
-        public User? User { get; set; }
+        //public User? User { get; set; }
+        //[ForeignKey("UserId")]
+        //public int UserId { get; set; }
+   
       
     }
 }

@@ -6,9 +6,10 @@ namespace EInsuranceProject.Model
     {
         [Key]
         public int PlanId { get;set; }
+        [Required(ErrorMessage = "This field is required")]
         public string PlanName { get;set; }
-        public bool Staus { get; set; }
+        public bool Status { get; set; }
 
-        public List<InsuranceScheme>Schemes { get; set; }                   
+        public List<InsuranceScheme>?Schemes { get; set; }                   
     }
 }

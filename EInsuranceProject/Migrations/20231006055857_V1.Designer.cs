@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EInsuranceProject.Migrations
 {
     [DbContext(typeof(InsuranceContext))]
-    [Migration("20231003174054_V3TestChange")]
-    partial class V3TestChange
+    [Migration("20231006055857_V1")]
+    partial class V1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -38,6 +38,21 @@ namespace EInsuranceProject.Migrations
                     b.HasIndex("CustomersCustomerId");
 
                     b.ToTable("AgentCustomer");
+                });
+
+            modelBuilder.Entity("ClaimPolicy", b =>
+                {
+                    b.Property<int>("ClaimsClaimId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PoliciesPolicyNo")
+                        .HasColumnType("int");
+
+                    b.HasKey("ClaimsClaimId", "PoliciesPolicyNo");
+
+                    b.HasIndex("PoliciesPolicyNo");
+
+                    b.ToTable("ClaimPolicy");
                 });
 
             modelBuilder.Entity("CustomerPolicy", b =>
@@ -65,20 +80,20 @@ namespace EInsuranceProject.Migrations
 
                     b.Property<string>("AdminFirstName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("AdminLastName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
 
                     b.HasKey("AdminId");
 
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Admins");
+                    b.ToTable("Admin");
                 });
 
             modelBuilder.Entity("EInsuranceProject.Model.Agent", b =>
@@ -91,11 +106,13 @@ namespace EInsuranceProject.Migrations
 
                     b.Property<string>("AgentFirstName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("AgentLastName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<double>("CommissionEarned")
                         .HasColumnType("float");
@@ -104,24 +121,82 @@ namespace EInsuranceProject.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Phone")
-                        .HasColumnType("int");
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Qualification")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<bool>("Status")
                         .HasColumnType("bit");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("AgentId");
 
-                    b.HasIndex("UserId");
+                    b.ToTable("Agent");
+                });
 
-                    b.ToTable("Agents");
+            modelBuilder.Entity("EInsuranceProject.Model.Claim", b =>
+                {
+                    b.Property<int>("ClaimId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClaimId"));
+
+                    b.Property<string>("BankAccountNo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("BankIFSCCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("ClaimAmount")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime>("ClaimDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
+
+                    b.HasKey("ClaimId");
+
+                    b.ToTable("Claim");
+                });
+
+            modelBuilder.Entity("EInsuranceProject.Model.Complaint", b =>
+                {
+                    b.Property<int>("ComplaintId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ComplaintId"));
+
+                    b.Property<string>("ComplaintMessage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ComplaintName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("CustomerId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DateOfComplaint")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
+
+                    b.HasKey("ComplaintId");
+
+                    b.HasIndex("CustomerId");
+
+                    b.ToTable("Complaint");
                 });
 
             modelBuilder.Entity("EInsuranceProject.Model.Customer", b =>
@@ -133,34 +208,43 @@ namespace EInsuranceProject.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CustomerId"));
 
                     b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("City")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("CustomerFirstName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("CustomerLastName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("Nominee")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("NomineeRelation")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
-                    b.Property<int>("Phone")
-                        .HasColumnType("int");
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("State")
                         .HasColumnType("int");
@@ -168,12 +252,7 @@ namespace EInsuranceProject.Migrations
                     b.Property<bool>("Status")
                         .HasColumnType("bit");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("CustomerId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Customers");
                 });
@@ -197,6 +276,9 @@ namespace EInsuranceProject.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("status")
+                        .HasColumnType("bit");
+
                     b.HasKey("DocumentId");
 
                     b.HasIndex("CustomerId");
@@ -218,11 +300,13 @@ namespace EInsuranceProject.Migrations
 
                     b.Property<string>("EmployeeFirstName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("EmployeeLastName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Phone")
                         .IsRequired()
@@ -234,12 +318,7 @@ namespace EInsuranceProject.Migrations
                     b.Property<bool>("Status")
                         .HasColumnType("bit");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("EmployeeId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Employees");
                 });
@@ -256,7 +335,7 @@ namespace EInsuranceProject.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("Staus")
+                    b.Property<bool>("Status")
                         .HasColumnType("bit");
 
                     b.HasKey("PlanId");
@@ -292,12 +371,27 @@ namespace EInsuranceProject.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PaymentId"));
 
-                    b.Property<int>("paymentType")
+                    b.Property<double>("Amount")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime>("PaymentDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("PaymentType")
                         .HasColumnType("int");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
+
+                    b.Property<double>("Tax")
+                        .HasColumnType("float");
+
+                    b.Property<double>("TotalPayment")
+                        .HasColumnType("float");
 
                     b.HasKey("PaymentId");
 
-                    b.ToTable("Payments");
+                    b.ToTable("Payment");
                 });
 
             modelBuilder.Entity("EInsuranceProject.Model.Policy", b =>
@@ -308,7 +402,7 @@ namespace EInsuranceProject.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PolicyNo"));
 
-                    b.Property<int>("InsuranceSchemeSchemeId")
+                    b.Property<int?>("InsuranceSchemeSchemeId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("IssueDate")
@@ -333,24 +427,7 @@ namespace EInsuranceProject.Migrations
 
                     b.HasIndex("InsuranceSchemeSchemeId");
 
-                    b.ToTable("Policies");
-                });
-
-            modelBuilder.Entity("EInsuranceProject.Model.Role", b =>
-                {
-                    b.Property<int>("roleId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("roleId"));
-
-                    b.Property<string>("roleName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("roleId");
-
-                    b.ToTable("Roles");
+                    b.ToTable("Policy");
                 });
 
             modelBuilder.Entity("EInsuranceProject.Model.SchemeDetails", b =>
@@ -358,44 +435,38 @@ namespace EInsuranceProject.Migrations
                     b.Property<int>("DetailId")
                         .HasColumnType("int");
 
+                    b.Property<int>("ClaimType")
+                        .HasColumnType("int");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("MaxAge")
+                        .HasColumnType("int");
+
                     b.Property<int>("MaxAmount")
                         .HasColumnType("int");
 
+                    b.Property<int>("MinAge")
+                        .HasColumnType("int");
+
                     b.Property<int>("MinAmount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SchemeId")
                         .HasColumnType("int");
 
                     b.Property<string>("SchemeImage")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
+
                     b.HasKey("DetailId");
 
                     b.ToTable("SchemeDetails");
-                });
-
-            modelBuilder.Entity("EInsuranceProject.Model.User", b =>
-                {
-                    b.Property<int>("UserId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"));
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("UserId");
-
-                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("InsurancePlanInsuranceScheme", b =>
@@ -415,32 +486,17 @@ namespace EInsuranceProject.Migrations
 
             modelBuilder.Entity("PaymentPolicy", b =>
                 {
-                    b.Property<int>("PaymentId")
+                    b.Property<int>("PaymentsPaymentId")
                         .HasColumnType("int");
 
                     b.Property<int>("PoliciesPolicyNo")
                         .HasColumnType("int");
 
-                    b.HasKey("PaymentId", "PoliciesPolicyNo");
+                    b.HasKey("PaymentsPaymentId", "PoliciesPolicyNo");
 
                     b.HasIndex("PoliciesPolicyNo");
 
                     b.ToTable("PaymentPolicy");
-                });
-
-            modelBuilder.Entity("RoleUser", b =>
-                {
-                    b.Property<int>("RolesroleId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UsersUserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("RolesroleId", "UsersUserId");
-
-                    b.HasIndex("UsersUserId");
-
-                    b.ToTable("RoleUser");
                 });
 
             modelBuilder.Entity("AgentCustomer", b =>
@@ -454,6 +510,21 @@ namespace EInsuranceProject.Migrations
                     b.HasOne("EInsuranceProject.Model.Customer", null)
                         .WithMany()
                         .HasForeignKey("CustomersCustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ClaimPolicy", b =>
+                {
+                    b.HasOne("EInsuranceProject.Model.Claim", null)
+                        .WithMany()
+                        .HasForeignKey("ClaimsClaimId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EInsuranceProject.Model.Policy", null)
+                        .WithMany()
+                        .HasForeignKey("PoliciesPolicyNo")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -473,37 +544,13 @@ namespace EInsuranceProject.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("EInsuranceProject.Model.Admin", b =>
+            modelBuilder.Entity("EInsuranceProject.Model.Complaint", b =>
                 {
-                    b.HasOne("EInsuranceProject.Model.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("EInsuranceProject.Model.Customer", "Customer")
+                        .WithMany("Queries")
+                        .HasForeignKey("CustomerId");
 
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("EInsuranceProject.Model.Agent", b =>
-                {
-                    b.HasOne("EInsuranceProject.Model.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("EInsuranceProject.Model.Customer", b =>
-                {
-                    b.HasOne("EInsuranceProject.Model.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
+                    b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("EInsuranceProject.Model.Document", b =>
@@ -517,24 +564,11 @@ namespace EInsuranceProject.Migrations
                     b.Navigation("Customer");
                 });
 
-            modelBuilder.Entity("EInsuranceProject.Model.Employee", b =>
-                {
-                    b.HasOne("EInsuranceProject.Model.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("EInsuranceProject.Model.Policy", b =>
                 {
                     b.HasOne("EInsuranceProject.Model.InsuranceScheme", "InsuranceScheme")
                         .WithMany("Policies")
-                        .HasForeignKey("InsuranceSchemeSchemeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("InsuranceSchemeSchemeId");
 
                     b.Navigation("InsuranceScheme");
                 });
@@ -569,7 +603,7 @@ namespace EInsuranceProject.Migrations
                 {
                     b.HasOne("EInsuranceProject.Model.Payment", null)
                         .WithMany()
-                        .HasForeignKey("PaymentId")
+                        .HasForeignKey("PaymentsPaymentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -580,24 +614,11 @@ namespace EInsuranceProject.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("RoleUser", b =>
-                {
-                    b.HasOne("EInsuranceProject.Model.Role", null)
-                        .WithMany()
-                        .HasForeignKey("RolesroleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("EInsuranceProject.Model.User", null)
-                        .WithMany()
-                        .HasForeignKey("UsersUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("EInsuranceProject.Model.Customer", b =>
                 {
                     b.Navigation("Documents");
+
+                    b.Navigation("Queries");
                 });
 
             modelBuilder.Entity("EInsuranceProject.Model.InsuranceScheme", b =>

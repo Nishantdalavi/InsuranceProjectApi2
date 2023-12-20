@@ -1,8 +1,11 @@
-﻿namespace EInsuranceProject.Repository
+﻿using System.Linq.Expressions;
+
+namespace EInsuranceProject.Repository
 {
     public interface IEntityRepository<T>
     {
-        public Task<IEnumerable<T>> GetAll(string[] innerTable);
+        public Task<IEnumerable<T>> GetAll(string[] innerTable, Expression<Func<T, bool>> predicate);
+       
         public Task<T> GetById(object id);
 
         public Task Insert(T entity);
